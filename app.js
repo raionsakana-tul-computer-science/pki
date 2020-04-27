@@ -1,8 +1,8 @@
 const { google } = require('googleapis');
-const express = require('express')
-const OAuth2Data = require('./google_key.json')
+const express = require('express');
+const OAuth2Data = require('./google_key.json');
 
-const app = express()
+const app = express();
 
 const CLIENT_ID = OAuth2Data.web.client.id;
 const CLIENT_SECRET = OAuth2Data.web.client.secret;
@@ -16,27 +16,25 @@ app.get('/', (req, res) => {
         // Generate an OAuth URL and redirect there
         const url = oAuth2Client.generateAuthUrl({
             access_type: 'offline',
-            scope: 'https://www.googleapis.com/auth/gmail.readonly'
+            scope: 'https://www.googleapis.com/auth/userinfo.profile'
         });
         console.log(url)
         res.redirect(url);
     } else {
-        const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
-        gmail.users.labels.list({
-            userId: 'me',
-        }, (err, res) => {
-            if (err) return console.log('The API returned an error: ' + err);
-            const labels = res.data.labels;
-            if (labels.length) {
-                console.log('Labels:');
-                labels.forEach((label) => {
-                    console.log(`- ${label.name}`);
-                });
+        var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
+        ouath2.userInfo.v2.me.get(function (err, result) {
+            if (err) {
+                console.log("Niestety BLAd!!");
+                console.log(err);
             } else {
-                console.log('No labels found.');
+                loggedUser = result.data.name;
+                console.log(loggedUser);
             }
+            res.send('Logged in '.
+                    concat(loggedUser, '<img src="', result.data.picture,
+                        '"height="23" width="23">'));
+
         });
-        res.send('Logged in')
     }
 });
 
@@ -58,5 +56,5 @@ app.get('/auth/google/callback', function (req, res) {
     }
 });
 
-const port = process.env.port || 5000
+const port = process.env.port || 5000;
 app.listen(port, () => console.log(`Server running at ${port}`));
