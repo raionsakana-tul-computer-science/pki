@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
             access_type: 'offline',
             scope: 'https://www.googleapis.com/auth/userinfo.profile'
         });
-        console.log(url)
+        console.log(url);
         res.redirect(url);
     } else {
         var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
@@ -31,15 +31,14 @@ app.get('/', (req, res) => {
                 console.log(loggedUser);
             }
             res.send('Logged in '.
-                    concat(loggedUser, '<img src="', result.data.picture,
-                        '"height="23" width="23">'));
+                    concat(loggedUser, '<img src="', result.data.picture, '"height="23" width="23">'));
 
         });
     }
 });
 
 app.get('/auth/google/callback', function (req, res) {
-    const code = req.query.code
+    const code = req.query.code;
     if (code) {
         // Get an access token based on our OAuth code
         oAuth2Client.getToken(code, function (err, tokens) {
@@ -50,7 +49,7 @@ app.get('/auth/google/callback', function (req, res) {
                 console.log('Successfully authenticated');
                 oAuth2Client.setCredentials(tokens);
                 authed = true;
-                res.redirect('/')
+                res.redirect('/');
             }
         });
     }
