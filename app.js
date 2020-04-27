@@ -13,6 +13,24 @@ var authed = false;
 
 app.get('/', (req, res) => {
     if (!authed) {
+        res.sendFile(__dirname + "/index.html");
+    } else {
+        var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
+        ouath2.userinfo.v2.me.get(function (err, result) {
+            if (err) {
+                console.log("Niestety BLAd!!");
+                console.log(err);
+            } else {
+                loggedUser = result.data.name;
+                console.log(loggedUser);
+            }
+            res.send('Logged in '.concat(loggedUser, '  <img src="', result.data.picture, '"height="23" width="23">'));
+        });
+    }
+});
+
+app.get('/log', (req, res) => {
+    if (!authed) {
         // Generate an OAuth URL and redirect there
         const url = oAuth2Client.generateAuthUrl({
             access_type: 'offline',
