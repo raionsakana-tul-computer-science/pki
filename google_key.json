@@ -1,1 +1,12 @@
-{"web":{"client_id":"789693373983-84drrkrajaf3u3a2a10ijmqfu893pbmc.apps.googleusercontent.com","project_id":"patryk-janowski","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"ETFHbOH6TqAB2YUuB_VMZoTn","redirect_uris":["https://patryk-janowski.herokuapp.com/auth/google/callback"],"javascript_origins":["https://patryk-janowski.herokuapp.com"]}}
+{
+  "web": {
+    "client_id":"789693373983-84drrkrajaf3u3a2a10ijmqfu893pbmc.apps.googleusercontent.com",
+    "project_id":"patryk-janowski",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret":"ETFHbOH6TqAB2YUuB_VMZoTn",
+    "redirect_uris":["https://patryk-janowski.herokuapp.com/auth/google/callback"],
+    "javascript_origins":["https://patryk-janowski.herokuapp.com"]
+  }
+}
