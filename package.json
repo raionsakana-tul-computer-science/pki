@@ -6,6 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "express": "expressjs/express",
+    "google-auth-library": "^6.0.0",
+    "googleapis": "^48.0.0",
+    "googleapis-common": "^4.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
