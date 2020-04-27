@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
         res.redirect(url);
     } else {
         var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
-        ouath2.userInfo.v2.me.get(function (err, result) {
+        ouath2.userinfo.v2.me.get(function (err, result) {
             if (err) {
                 console.log("Niestety BLAd!!");
                 console.log(err);
@@ -30,8 +30,7 @@ app.get('/', (req, res) => {
                 loggedUser = result.data.name;
                 console.log(loggedUser);
             }
-            res.send('Logged in '.
-                    concat(loggedUser, '<img src="', result.data.picture, '"height="23" width="23">'));
+            res.send('Logged in '.concat(loggedUser, '<img src="', result.data.picture, '"height="23" width="23">'));
 
         });
     }
