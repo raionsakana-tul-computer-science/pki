@@ -8,7 +8,7 @@ const CLIENT_ID = OAuth2Data.web.client.id;
 const CLIENT_SECRET = OAuth2Data.web.client.secret;
 const REDIRECT_URL = OAuth2Data.web.client.redirect[0];
 
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL)
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 var authed = false;
 
 app.get('/', (req, res) => {
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
         });
         res.send('Logged in')
     }
-})
+});
 
 app.get('/auth/google/callback', function (req, res) {
     const code = req.query.code
@@ -46,7 +46,7 @@ app.get('/auth/google/callback', function (req, res) {
         // Get an access token based on our OAuth code
         oAuth2Client.getToken(code, function (err, tokens) {
             if (err) {
-                console.log('Error authenticating')
+                console.log('Error authenticating');
                 console.log(err);
             } else {
                 console.log('Successfully authenticated');
