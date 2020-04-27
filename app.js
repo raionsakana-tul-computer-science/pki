@@ -48,9 +48,21 @@ app.get('/log', (req, res) => {
                 loggedUser = result.data.name;
                 console.log(loggedUser);
             }
-            res.send('Logged in '.concat(loggedUser, '<img src="', result.data.picture, '"height="23" width="23">'));
+            res.send('Logged in '.concat(loggedUser, '<img src="', result.data.picture, '"height="23" width="23">',
+                '<br><br><form action="/logout"><input type="submit" value="Wyloguj"></form>'));
 
         });
+    }
+});
+
+app.get('/logout', (req, res) => {
+    if (!authed) {
+        res.sendFile(__dirname + "/index.html");
+    } else {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut();
+        auth2.disconnect();
+        res.sendFile(__dirname + "/index.html");
     }
 });
 
