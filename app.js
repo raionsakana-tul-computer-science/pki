@@ -49,7 +49,7 @@ app.get('/log', (req, res) => {
                 console.log(loggedUser);
             }
             res.send('Logged in '.concat(loggedUser, '<img src="', result.data.picture,
-                '"height="23" width="23"><br><br><form action="/logout"><input type="submit" value="Wyloguj"></form>'));
+                '"height="23" width="23">', '<br', '><br', '><form action="/logout"', '><input type="submit" value="Wyloguj"', '></form', '>'));
 
         });
     }
