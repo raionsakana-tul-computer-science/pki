@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PKI</title>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1>Przykładowa strona na PKI</h1>
-    <form action="/log">
-        <input type="submit" value="Zaloguj">
-    </form>
-    <br>
-    <br>
-    <br>
-    <div id="tableGoesHere"></div>
 
-    <script type="js">
-        document.getElementById('tableGoesHere').innerHTML = json2table(data);
-    </script>
+<div class="jumbotron text-center">
+    <h1><h1>Przykładowa strona na PKI</h1></h1>
+    <p>Uruchomiona na Heroku!</p>
+</div>
+
+<div class="container">
+    <center>
+        <div class="row">
+            <form action="/log">
+                <input type="submit" value="Zaloguj">
+            </form>
+        </div>
+    </center>
+</div>
 
 </body>
 </html>
