@@ -160,7 +160,7 @@ app.get('/auth/google/callback', function (req, res) {
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running at ${port}`));
 
-navbar_begin = `<nav class="navbar navbar-light bg-light"><span class="navbar-brand mb-0 h1">Navbar`;
+navbar_begin = `<nav class="navbar navbar-dark bg-dark"><span class="navbar-brand mb-0 h1">`;
 navbar_end = `</span></nav>`;
 
 html_begin = `<!DOCTYPE html>
