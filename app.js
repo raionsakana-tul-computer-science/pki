@@ -40,7 +40,7 @@ function json2table(json, classes, html_code) {
         bodyRows += '</tr>';
     });
 
-    return html_begin + html_code + '<br><br><table border="1" class="table ' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>' + html_end;
+    return html_begin + navbar_begin + html_code + navbar_end + '<br><br><table border="1" class="table ' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>' + html_end;
 }
 
 function updateTable(user) {
@@ -159,6 +159,9 @@ app.get('/auth/google/callback', function (req, res) {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running at ${port}`));
+
+navbar_begin = `<nav class="navbar navbar-light bg-light"><span class="navbar-brand mb-0 h1">Navbar`;
+navbar_end = `</span></nav>`;
 
 html_begin = `<!DOCTYPE html>
 <html lang="en">
