@@ -12,13 +12,11 @@ const client = new Client({
 client.connect();
 
 const getUsers = (request, response, html_code) => {
-    client.connect();
     client.query('SELECT id, name, counter, to_char(joined, \'YYYY-MM-DD HH:mm:ss\') as joined, to_char(lastvisit, \'YYYY-MM-DD HH:mm:ss\') as lastvisit FROM public.users;', (err, res) => {
         if (err) throw err;
         console.log('Dostałem...');
         response.send(json2table(res.rows, '', html_code));
     });
-    client.close();
 };
 
 function capitalizeFirstLetter(string) {
@@ -50,7 +48,6 @@ function updateTable(user) {
 
     var query = "SELECT id FROM public.users WHERE name = '" + user + "';";
     console.log(query);
-    client.connect();
 
     client.query(query, (err, res) => {
         console.log(err, res.rows.length);
@@ -73,7 +70,6 @@ function updateTable(user) {
             });
         }
     });
-    client.close();
 }
 
 const express = require('express');
