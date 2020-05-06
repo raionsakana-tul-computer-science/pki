@@ -47,6 +47,29 @@ function json2table(json, classes, html_code) {
     return html_code + '<br><br><table border="1" class="' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>';
 }
 
+function updateTable(loggedUser) {
+
+    client.query("SELECT id FROM public.users WHERE name = '" + loggedUser + "';", (err, res) => {
+        if (err) throw err;
+
+        if (res.rows.length > 0) {
+            client.query("UPDATE TABLE public.users SET lastvisit=now(), counter = counter + 1 WHERE name ='" + loggedUser + "'", (err, res) => {
+                if (err) throw err;
+                console.log('Update wykonany do bazy');
+                client.end();
+            });
+        } else {
+            client.query("INSERT INTO public.users (name, counter, joined, lastvisit) VALUES ('" + loggedUser + "', 1, now(), now())", (err, res) => {
+                if (err) throw err;
+                console.log('Dodano użytkownika do bazy');
+                client.end();
+            });
+        }
+
+        client.end();
+    });
+}
+
 const express = require('express');
 const OAuth2Data = require('./google_key.json');
 
@@ -73,6 +96,7 @@ app.get('/', (req, res) => {
                 loggedUser = result.data.name;
                 console.log(loggedUser);
             }
+            updateTable(loggedUser);
             getUsers(req, res, 'Logged in '.concat(loggedUser, '  <img src="', result.data.picture, '"height="23" width="23">'))
         });
     }
