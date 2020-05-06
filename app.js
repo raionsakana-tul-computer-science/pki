@@ -1,34 +1,3 @@
-html_begin = `<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <title>Bootstrap Example</title>
-<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-
-    <div class="jumbotron text-center">
-    <h1><h1>Przykładowa strona na PKI</h1></h1>
-<p>Uruchomiona na Heroku!</p>
-</div>
-
-<div class="container">
-    <center>
-    <div class="row">
-`;
-
-html_end = `</div>
-    </center>
-</div>
-
-</body>
-</html>
-`;
-
-
 const { google } = require('googleapis');
 const { Client } = require('pg');
 
@@ -60,7 +29,7 @@ function json2table(json, classes, html_code) {
     classes = classes || '';
 
     cols.map(function(col) {
-        headerRow += '<th>' + capitalizeFirstLetter(col) + '</th>';
+        headerRow += '<th scope="col">' + capitalizeFirstLetter(col) + '</th>';
     });
 
     json.map(function(row) {
@@ -71,7 +40,7 @@ function json2table(json, classes, html_code) {
         bodyRows += '</tr>';
     });
 
-    return html_begin + html_code + '<br><br><table border="1" class="' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>' + html_end;
+    return html_begin + html_code + '<br><br><table border="1" class="table ' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>' + html_end;
 }
 
 function updateTable(user) {
@@ -190,3 +159,33 @@ app.get('/auth/google/callback', function (req, res) {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running at ${port}`));
+
+html_begin = `<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Bootstrap Example</title>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+
+    <div class="jumbotron text-center">
+    <h1><h1>Przykładowa strona na PKI</h1></h1>
+<p>Uruchomiona na Heroku!</p>
+</div>
+
+<div class="container">
+    <center>
+    <div class="row">
+`;
+
+html_end = `</div>
+    </center>
+</div>
+
+</body>
+</html>
+`;
