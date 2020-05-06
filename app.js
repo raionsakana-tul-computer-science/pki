@@ -11,12 +11,12 @@ const client = new Client({
 
 client.connect();
 
-const getUsers = (request, response) => {
+const getUsers = (request, response, html_code) => {
     client.query('SELECT id, name, counter, to_char(joined, \'YYYY-MM-DD\') as joined, to_char(lastvisit, \'YYYY-MM-DD\') as lastvisit FROM public.users;', (err, res) => {
         if (err) throw err;
 
         console.log('Dostałem...');
-        response.send(json2table(res.rows, ''));
+        response.send(json2table(res.rows, '', html_code));
 
         client.end();
     });
@@ -26,7 +26,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function json2table(json, classes) {
+function json2table(json, classes, html_code) {
     var cols = Object.keys(json[0]);
     var headerRow = '';
     var bodyRows = '';
@@ -44,7 +44,7 @@ function json2table(json, classes) {
         bodyRows += '</tr>';
     });
 
-    return '<br><br><table border="1" class="' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>';
+    return html_code + '<br><br><table border="1" class="' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>';
 }
 
 const express = require('express');
@@ -61,8 +61,8 @@ var authed = false;
 
 app.get('/', (req, res) => {
     if (!authed) {
-        getUsers(req, res)
-        // res.sendFile(__dirname + "/index.html");
+        // getUsers(req, res, "<h1>PKI</h1>")
+        res.sendFile(__dirname + "/index.html");
     } else {
         var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
         ouath2.userinfo.v2.me.get(function (err, result) {
@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
                 loggedUser = result.data.name;
                 console.log(loggedUser);
             }
-            res.send('Logged in '.concat(loggedUser, '  <img src="', result.data.picture, '"height="23" width="23">') + getUsers(req, res));
+            getUsers(req, res, 'Logged in '.concat(loggedUser, '  <img src="', result.data.picture, '"height="23" width="23">'))
         });
     }
 });
