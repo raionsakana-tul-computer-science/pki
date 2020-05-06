@@ -8,14 +8,16 @@ const client = new Client({
     , ssl: true
 });
 
-client.connect();
-
 const getUsers = (request, response, html_code) => {
+    client.connect();
+
     client.query('SELECT id, name, counter, to_char(joined, \'YYYY-MM-DD HH:mm:ss\') as joined, to_char(lastvisit, \'YYYY-MM-DD HH:mm:ss\') as lastvisit FROM public.users;', (err, res) => {
         if (err) throw err;
         console.log('Dostałem...');
         response.send(json2table(res.rows, '', html_code));
     });
+
+    client.close();
 };
 
 function capitalizeFirstLetter(string) {
@@ -44,6 +46,7 @@ function json2table(json, classes, html_code) {
 }
 
 function updateTable(user) {
+    client.connect();
 
     var query = "SELECT id FROM public.users WHERE name = '" + user + "';";
     console.log(query);
@@ -69,6 +72,7 @@ function updateTable(user) {
             });
         }
     });
+    client.close();
 }
 
 const express = require('express');
