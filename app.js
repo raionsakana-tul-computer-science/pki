@@ -18,7 +18,6 @@ const getUsers = (request, response, html_code) => {
         console.log('Dostałem...');
         response.send(json2table(res.rows, '', html_code));
 
-        client.end();
     });
 };
 
@@ -47,26 +46,32 @@ function json2table(json, classes, html_code) {
     return html_code + '<br><br><table border="1" class="' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>';
 }
 
-function updateTable(loggedUser) {
+function updateTable(user) {
 
-    client.query("SELECT id FROM public.users WHERE name = '" + loggedUser + "';", (err, res) => {
-        if (err) throw err;
+    var query = "SELECT id FROM public.users WHERE name = '" + user + "';";
+    console.log(query);
+
+    client.query(query, (err, res) => {
+        console.log(err, res.rows.length);
 
         if (res.rows.length > 0) {
-            client.query("UPDATE TABLE public.users SET lastvisit=now(), counter = counter + 1 WHERE name ='" + loggedUser + "'", (err, res) => {
-                if (err) throw err;
+            var query = "UPDATE public.users SET lastvisit=now(), counter = counter + 1 WHERE name ='" + user + "';";
+            console.log(query);
+
+            client.query(query, (err, res) => {
+                console.log(err, res);
                 console.log('Update wykonany do bazy');
-                client.end();
             });
         } else {
-            client.query("INSERT INTO public.users (name, counter, joined, lastvisit) VALUES ('" + loggedUser + "', 1, now(), now())", (err, res) => {
-                if (err) throw err;
+            var query = "INSERT INTO public.users (name, counter, joined, lastvisit) VALUES ('" + user + "', 1, now(), now())";
+            console.log(query);
+
+            client.query(query, (err, res) => {
+                console.log(err, res);
                 console.log('Dodano użytkownika do bazy');
-                client.end();
             });
         }
 
-        client.end();
     });
 }
 
@@ -84,7 +89,7 @@ var authed = false;
 
 app.get('/', (req, res) => {
     if (!authed) {
-        // getUsers(req, res, "<h1>PKI</h1>")
+        updateTable('ela')
         res.sendFile(__dirname + "/index.html");
     } else {
         var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
