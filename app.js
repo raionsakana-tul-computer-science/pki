@@ -89,7 +89,6 @@ var authed = false;
 
 app.get('/', (req, res) => {
     if (!authed) {
-        updateTable('ela')
         res.sendFile(__dirname + "/index.html");
     } else {
         var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
