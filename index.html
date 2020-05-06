@@ -9,5 +9,14 @@
     <form action="/log">
         <input type="submit" value="Zaloguj">
     </form>
+    <br>
+    <br>
+    <br>
+    <div id="tableGoesHere"></div>
+
+    <script type="js">
+        document.getElementById('tableGoesHere').innerHTML = json2table(data);
+    </script>
+
 </body>
 </html>

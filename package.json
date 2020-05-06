@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "googleapis": "^49.0.0"
+    "googleapis": "^49.0.0",
+    "html-tablify": "^2.0.2",
+    "pg": "^8.0.3"
   },
   "keywords": [],
   "author": "",

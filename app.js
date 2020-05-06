@@ -1,4 +1,52 @@
 const { google } = require('googleapis');
+const { Client } = require('pg');
+var html_tablify = require('html-tablify');
+
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
+const client = new Client({
+    connectionString: 'postgres://wfkxgicnkataws:d193871d236ce92502364c883d19d7eeec56a9cde61081d9f9d188b15191ae7b@ec2-46-137-84-140.eu-west-1.compute.amazonaws.com:5432/d65sahdom226p1'
+    , ssl: true
+});
+
+client.connect();
+
+const getUsers = (request, response) => {
+    client.query('SELECT id, name, counter, to_char(joined, \'YYYY-MM-DD\') as joined, to_char(lastvisit, \'YYYY-MM-DD\') as lastvisit FROM public.users;', (err, res) => {
+        if (err) throw err;
+
+        console.log('Dostałem...');
+        response.send(json2table(res.rows, ''));
+
+        client.end();
+    });
+};
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function json2table(json, classes) {
+    var cols = Object.keys(json[0]);
+    var headerRow = '';
+    var bodyRows = '';
+    classes = classes || '';
+
+    cols.map(function(col) {
+        headerRow += '<th>' + capitalizeFirstLetter(col) + '</th>';
+    });
+
+    json.map(function(row) {
+        bodyRows += '<tr>';
+        cols.map(function(colName) {
+            bodyRows += '<td>' + row[colName] + '</td>';
+        });
+        bodyRows += '</tr>';
+    });
+
+    return '<br><br><table border="1" class="' + classes + '"><thead><tr>' + headerRow + '</tr></thead><tbody>' + bodyRows + '</tbody></table>';
+}
+
 const express = require('express');
 const OAuth2Data = require('./google_key.json');
 
@@ -24,7 +72,7 @@ app.get('/', (req, res) => {
                 loggedUser = result.data.name;
                 console.log(loggedUser);
             }
-            res.send('Logged in '.concat(loggedUser, '  <img src="', result.data.picture, '"height="23" width="23">'));
+            res.send('Logged in '.concat(loggedUser, '  <img src="', result.data.picture, '"height="23" width="23">') + getUsers(req, res));
         });
     }
 });
