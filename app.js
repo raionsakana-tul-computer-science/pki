@@ -61,7 +61,8 @@ var authed = false;
 
 app.get('/', (req, res) => {
     if (!authed) {
-        res.sendFile(__dirname + "/index.html");
+        getUsers(req, res)
+        // res.sendFile(__dirname + "/index.html");
     } else {
         var ouath2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
         ouath2.userinfo.v2.me.get(function (err, result) {
